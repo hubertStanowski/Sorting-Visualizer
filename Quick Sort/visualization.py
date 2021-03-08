@@ -17,40 +17,45 @@ m = max(array)
 
 
 def partition(array, p, r, elements):
-    delay = 30
-    q = p
-    pivot = array[r]
-    elements[r][0] = (0, 255, 0)
-
-    for j in range(p, r):
+    delay = 0
+    q = p+1
+    pivot = array[p]
+    elements[p][0] = (0, 255, 0)
+    for j in range(p+1, r+1):
 
         if array[j] <= pivot:
             array[q], array[j] = array[j], array[q]
             q += 1
 
         elements = create_rects(array)
-        if q >= 0:
+        if q < 100:
             elements[q][0] = (255, 0, 0)
-        elements[r][0] = (0, 255, 0)
+        elements[p][0] = (0, 255, 0)
         draw_window(win, elements)
         pygame.time.delay(delay)
         elements[j][0] = (0, 0, 255)
         draw_window(win, elements)
         pygame.time.delay(delay)
 
-    array[q], array[r] = array[r], array[q]
+    array[q-1], array[p] = array[p], array[q-1]
     elements = create_rects(array)
     draw_window(win, elements)
     pygame.time.delay(delay)
 
-    return q
+    return q-1
+
+
+def random_partition(array, p, r, elements):
+    pivot = random.randrange(p, r)
+    array[p], array[pivot] = array[pivot], array[p]
+    return partition(array, p, r, elements)
 
 
 def quick_sort(array, p, r, elements):
     if len(array) < 2:
         return array
     if p < r:
-        q = partition(array, p, r, elements)
+        q = random_partition(array, p, r, elements)
         quick_sort(array, p, q-1, elements)
         quick_sort(array, q+1, r, elements)
         return array
