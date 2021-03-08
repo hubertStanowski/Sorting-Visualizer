@@ -1,2 +1,6 @@
 # Sorting-Visualizer
-Visualization of sorting algoithms using pygame
+Visualization of sorting algorithms using pygame
+
+Requirements:
+- Python 3+
+- Pygame 2+
