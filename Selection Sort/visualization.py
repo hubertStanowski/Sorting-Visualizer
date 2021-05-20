@@ -5,8 +5,8 @@ import random
 pygame.init()
 
 # Initializing a pygame window with a caption
-win_width = 2000
-win_height = 1000
+win_width = 1680
+win_height = 720
 win = pygame.display.set_mode((win_width, win_height))
 pygame.display.set_caption("Selection sort")
 
