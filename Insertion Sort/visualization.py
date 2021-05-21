@@ -5,14 +5,15 @@ import random
 pygame.init()
 
 # Initializing a pygame widow with a caption
-win_width = 1300
-win_height = 600
+win_width = 1680
+win_height = 720
 win = pygame.display.set_mode((win_width, win_height))
 pygame.display.set_caption("Insertion Sort")
 
 # Creating and shuffling an array of 100 numbers
 array = [x for x in range(1, 101)]
 random.shuffle(array)
+m = max(array)
 
 # Main function
 def main(array):
@@ -31,16 +32,16 @@ def main(array):
 # Swaps an element with the one that proceeds it
 def slide_to_left(idx, array, elements):
     if idx > 0:
-        array[idx-1], array[idx] = array[idx], array[idx-1]
+        array[idx - 1], array[idx] = array[idx], array[idx - 1]
 
     return array
 
 # Inserts an element into an array (insertion sort)
 def insert(idx, array, elements):
-    delay = 50
+    delay = 0
     current = array[idx]
     green_idx = idx
-    prev_idx = idx-1
+    prev_idx = idx - 1
     while prev_idx >= 0 and current < array[prev_idx]:
 
         pygame.time.delay(delay)
@@ -69,7 +70,7 @@ def insertion_sort(array, elements):
 
 # Creates elements to draw on the surface (visualization)
 def create_elements(array):
-    max_value = max(array)
+    max_value = m
     ele_width = win_width / len(array)
     elements = [x for x in range(1, 101)]
     for i in range(len(array)):
@@ -101,6 +102,10 @@ def draw_window(elements):
 
 # Changes color of every element to green with delay and then changes it to white
 def final_scan(elements):
+    for el in elements:
+        el["color"] = (255, 255, 255)
+    draw_window(elements)
+    
     for el in elements:
         el["color"] = (0, 255, 0)
         draw_window(elements)

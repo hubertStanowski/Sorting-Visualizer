@@ -14,6 +14,7 @@ pygame.display.set_caption("Selection sort")
 array = [i for i in range(1, 101)]
 random.shuffle(array)
 
+
 # Main function
 def main(array):
     finished = False
@@ -36,11 +37,51 @@ def main(array):
             final_scan(elements)
 
 
-# Swaps two values in an array by indexes and returns an updated array
-def swap(idx_1, idx_2, array):
-    array[idx_1], array[idx_2] = array[idx_2], array[idx_1]
+# Creates elements to draw on the surface (visualization)
+def create_elements(array):
+    max_value = max(array)
+    ele_width = win_width / len(array)
+    elements = [x for x in range(1, 101)]
+    for i in range(len(array)):
+        ele_height = round(array[i] / max_value * (win_height - 100))
+        elements[i] = {
+            "color": (255, 255, 255),
+            "x": ele_width * i,
+            "y": win_height - ele_height,
+            "width": ele_width,
+            "height": ele_height
+        }
+    return elements
 
-    return array
+
+# Draws elements of the array on the surface with additional 1px black border
+def draw_elements(elements):
+    for el in elements:
+        pygame.draw.rect(win, el["color"],
+                         (el["x"], el["y"], el["width"], el["height"]))
+        pygame.draw.rect(win, (0, 0, 0),
+                         (el["x"], el["y"], el["width"], el["height"]), 1)
+
+    pygame.display.update()
+
+
+# Draws black window and fills it with elements of an array (draw_elements())
+def draw_window(elements):
+    win.fill((0, 0, 0))
+    draw_elements(elements)
+
+
+# Changes color of every element to green with delay and then changes it to white
+def final_scan(elements):
+    for el in elements:
+        el["color"] = (0, 255, 0)
+        draw_window(elements)
+        pygame.time.delay(10)
+
+    pygame.time.delay(50)
+    for el in elements:
+        el["color"] = (255, 255, 255)
+    draw_window(elements)
 
 
 # Finds index of the smallest number in an array
@@ -83,48 +124,12 @@ def selection_sort(array, elements):
 
     return elements
 
-# Creates elements to draw on the surface (visualization)
-def create_elements(array):
-    max_value = max(array)
-    ele_width = win_width / len(array)
-    elements = [x for x in range(1, 101)]
-    for i in range(len(array)):
-        ele_height = round(array[i] / max_value * (win_height - 100))
-        elements[i] = {
-            "color": (255, 255, 255),
-            "x": ele_width * i,
-            "y": win_height - ele_height,
-            "width": ele_width,
-            "height": ele_height
-        }
-    return elements
 
-# Draws elements of the array on the surface with additional 1px black border
-def draw_elements(elements):
-    for el in elements:
-        pygame.draw.rect(win, el["color"],
-                         (el["x"], el["y"], el["width"], el["height"]))
-        pygame.draw.rect(win, (0, 0, 0),
-                         (el["x"], el["y"], el["width"], el["height"]), 1)
+# Swaps two values in an array by indexes and returns an updated array
+def swap(idx_1, idx_2, array):
+    array[idx_1], array[idx_2] = array[idx_2], array[idx_1]
 
-    pygame.display.update()
-
-# Draws black window and fills it with elements of an array (draw_elements())
-def draw_window(elements):
-    win.fill((0, 0, 0))
-    draw_elements(elements)
-
-# Changes color of every element to green with delay and then changes it to white
-def final_scan(elements):
-    for el in elements:
-        el["color"] = (0, 255, 0)
-        draw_window(elements)
-        pygame.time.delay(10)
-
-    pygame.time.delay(50)
-    for el in elements:
-        el["color"] = (255, 255, 255)
-    draw_window(elements)
+    return array
 
 
 main(array)

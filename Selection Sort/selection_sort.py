@@ -1,7 +1,3 @@
-def swap(idx_1, idx_2, array):
-    array[idx_1], array[idx_2] = array[idx_2], array[idx_1]
-
-
 def find_min_idx(start_idx, array):
     min_idx = start_idx
     for i in range(start_idx+1, len(array)):
@@ -17,3 +13,7 @@ def sort(array):
         swap(i, min_idx, array)
 
     return array
+
+
+def swap(idx_1, idx_2, array):
+    array[idx_1], array[idx_2] = array[idx_2], array[idx_1]

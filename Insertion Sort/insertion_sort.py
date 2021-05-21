@@ -1,8 +1,3 @@
-def slide_to_left(idx, array):
-    if idx > 0:
-        array[idx - 1], array[idx] = array[idx], array[idx - 1]
-
-
 def insert(idx, array):
     current = array[idx]
     prev_idx = idx - 1
@@ -10,6 +5,11 @@ def insert(idx, array):
         slide_to_left(idx, array)
         prev_idx -= 1
         idx -= 1
+
+
+def slide_to_left(idx, array):
+    if idx > 0:
+        array[idx - 1], array[idx] = array[idx], array[idx - 1]
 
 
 def sort(array):
