@@ -1,6 +1,5 @@
 import random
 
-
 def partition(array, p, r):
     q = p + 1
     pivot = array[p]
@@ -15,12 +14,6 @@ def partition(array, p, r):
     return q - 1
 
 
-def random_partition(array, p, r):
-    pivot = random.randrange(p, r)
-    array[p], array[pivot] = array[pivot], array[p]
-    return partition(array, p, r)
-
-
 def quick_sort(array, p, r):
     if len(array) < 2:
         return array
@@ -30,3 +23,9 @@ def quick_sort(array, p, r):
         quick_sort(array, p, q - 1)
         quick_sort(array, q + 1, r)
         return array
+
+
+def random_partition(array, p, r):
+    pivot = random.randrange(p, r)
+    array[p], array[pivot] = array[pivot], array[p]
+    return partition(array, p, r)
