@@ -13,7 +13,7 @@ pygame.display.set_caption("Selection sort")
 # Creating and shuffling an array of 100 numbers
 array = [i for i in range(1, 101)]
 random.shuffle(array)
-
+m = max(array)
 
 # Main function
 def main(array):
@@ -39,7 +39,7 @@ def main(array):
 
 # Creates elements to draw on the surface (visualization)
 def create_elements(array):
-    max_value = max(array)
+    max_value = m
     ele_width = win_width / len(array)
     elements = [x for x in range(1, 101)]
     for i in range(len(array)):
