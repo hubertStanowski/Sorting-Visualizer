@@ -282,6 +282,72 @@ def insert(idx, array, visual_array):
     return array
 
 
+def merge_sort(array, visual_array, p=0, r=None):
+    if r == None:
+        r = len(array) - 1
+    if p < r:
+        q = (p + r - 1) // 2
+        merge_sort(array, visual_array, p, q)
+        merge_sort(array, visual_array, q + 1, r)
+        return merge(array, p, q, r, visual_array)
+
+
+def merge(array, p, q, r, visual_array):
+    global delay
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+
+    end1 = q - p + 1
+    end2 = r - q
+    half_1 = []
+    half_2 = []
+
+    for i in range(end1):
+        half_1.append(array[p + i])
+
+    for j in range(end2):
+        half_2.append(array[q + 1 + j])
+
+    i = 0
+    j = 0
+    k = p
+    while i < len(half_1) and j < len(half_2):
+        if half_1[i] <= half_2[j]:
+            array[k] = half_1[i]
+            i += 1
+        else:
+            array[k] = half_2[j]
+            j += 1
+        k += 1
+        visual_array = generate_visual_array(array)
+        visual_array[q + i].color = RED
+        visual_array[p + i].color = RED
+        visual_array[r].color = GREEN
+        visual_array[k].color = BLUE
+
+        draw(visual_array)
+        pygame.time.delay(delay)
+
+    while i < len(half_1):
+        array[k] = half_1[i]
+        i += 1
+        k += 1
+        visual_array = generate_visual_array(array)
+        draw(visual_array)
+        pygame.time.delay(delay)
+
+    while j < len(half_2):
+        array[k] = half_2[j]
+        j += 1
+        k += 1
+        visual_array = generate_visual_array(array)
+        draw(visual_array)
+        pygame.time.delay(delay)
+
+    return array
+
+
 class ArrayNode:
     def __init__(self, color, x, y, width, height):
         self.color = color
