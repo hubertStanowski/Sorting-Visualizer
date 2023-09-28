@@ -348,6 +348,57 @@ def merge(array, p, q, r, visual_array):
     return array
 
 
+def quick_sort(array, visual_array, p=0, r=None):
+    if r is None:
+        r = len(array) - 1
+    if len(array) < 2:
+        return array
+    if p < r:
+        q = random_partition(array, p, r, visual_array)
+        quick_sort(array, visual_array, p, q - 1)
+        quick_sort(array, visual_array, q + 1, r)
+        return array
+
+
+def partition(array, p, r, visual_array):
+    global delay
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+    q = p + 1
+    pivot = array[p]
+    visual_array[p].color = GREEN
+    for j in range(p + 1, r + 1):
+
+        if array[j] <= pivot:
+            array[q], array[j] = array[j], array[q]
+            q += 1
+
+        visual_array = generate_visual_array(array)
+        try:
+            visual_array[q].color = RED
+        except IndexError:
+            pass
+
+        visual_array[p].color = GREEN
+        visual_array[j].color = BLUE
+        draw(visual_array)
+        pygame.time.delay(delay)
+
+    array[q - 1], array[p] = array[p], array[q - 1]
+    visual_array = generate_visual_array(array)
+    draw(visual_array)
+    pygame.time.delay(delay)
+
+    return q - 1
+
+
+def random_partition(array, p, r, visual_array):
+    pivot = random.randrange(p, r)
+    array[p], array[pivot] = array[pivot], array[p]
+    return partition(array, p, r, visual_array)
+
+
 class ArrayNode:
     def __init__(self, color, x, y, width, height):
         self.color = color
