@@ -242,6 +242,46 @@ def swap(idx_1, idx_2, array):
     return array
 
 
+def insertion_sort(array, visual_array):
+    for i in range(1, len(array)):
+        visual_array = insert(i, array, visual_array)
+
+    return visual_array
+
+
+# Swaps an element with the one that proceeds it
+def slide_to_left(idx, array):
+    if idx > 0:
+        array[idx - 1], array[idx] = array[idx], array[idx - 1]
+
+    return array
+
+
+def insert(idx, array, visual_array):
+    global delay
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+
+    current = array[idx]
+    green_idx = idx
+    prev_idx = idx - 1
+    while prev_idx >= 0 and current < array[prev_idx]:
+        array = slide_to_left(idx, array)
+        visual_array = generate_visual_array(array)
+        prev_idx -= 1
+        idx -= 1
+        visual_array[idx].color = RED
+        if prev_idx >= 0:
+            visual_array[prev_idx].color = BLUE
+        visual_array[green_idx].color = GREEN
+        pygame.time.delay(delay)
+
+        draw(visual_array)
+
+    return array
+
+
 class ArrayNode:
     def __init__(self, color, x, y, width, height):
         self.color = color
