@@ -198,6 +198,50 @@ def final_scan(visual_array):
     draw(visual_array)
 
 
+# *** Algorithms ***
+
+
+def selection_sort(array, visual_array):
+    for i in range(len(array)):
+        min_idx = find_min_idx(array, visual_array, i)
+        array = swap(i, min_idx, array)
+        visual_array = generate_visual_array(array)
+        visual_array[i].color = GREEN
+        draw(visual_array)
+
+    return array
+
+
+def find_min_idx(array, visual_array, start_idx):
+    global delay
+    min_idx = start_idx
+
+    for i in range(start_idx+1, len(array)):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
+        visual_array[i].color = BLUE
+
+        if array[i] < array[min_idx]:
+            visual_array[min_idx].color = WHITE
+            min_idx = i
+
+        draw(visual_array)
+        pygame.time.delay(delay)
+        visual_array[min_idx].color = RED
+        visual_array[i].color = WHITE
+
+    return min_idx
+
+
+# Swaps two values in an array by indexes and returns an updated array
+def swap(idx_1, idx_2, array):
+    array[idx_1], array[idx_2] = array[idx_2], array[idx_1]
+
+    return array
+
+
 class ArrayNode:
     def __init__(self, color, x, y, width, height):
         self.color = color
