@@ -16,6 +16,7 @@ class Screen:
         self.legend = None
         self.array = None
         self.selected_algorithm = None
+        self.algorithm_running = False
         self.delay = 0
 
     def draw(self):
@@ -43,17 +44,17 @@ class Screen:
 
         pygame.display.update()
 
-    # def resize(self, new_window):
-    #     self.window = new_window
-    #     if self.graph:
-    #         self.graph.resize_nodes(new_window)
-    #         if self.legend:
-    #             initialize_legend(self)
-    #         if self.buttons:
-    #             algorithm_running = not self.buttons["action_buttons"]["RUN"].visible
-    #             initialize_buttons(self, algorithm_running)
+    def resize(self, new_window):
+        self.window = new_window
+        if self.array:
+            # self.array.resize_nodes(new_window)
+            if self.legend:
+                initialize_legend(self)
+            if self.buttons:
+                algorithm_running = not self.buttons["action_buttons"]["RUN"].visible
+                initialize_buttons(self, algorithm_running)
 
-    #     self.draw()
+        self.draw()
 
     def add_buttons(self, label, buttons):
         self.buttons[label] = buttons

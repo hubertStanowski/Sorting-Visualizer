@@ -5,7 +5,7 @@ import pygame
 
 
 class Button():
-    def __init__(self, x, y, color=WHITE, label=""):
+    def __init__(self, x, y, color=WHITE, label="", visible=True):
         self.x = x
         self.y = y
         self.width = BUTTON_WIDTH
@@ -14,6 +14,7 @@ class Button():
         self.rect = pygame.Rect(
             x, y, BUTTON_WIDTH, BUTTON_HEIGHT)
         self.text = label
+        self.visible = visible
 
     def draw(self, window):
         pygame.draw.rect(window, self.color, self.rect)
@@ -59,7 +60,7 @@ class SmallButton:
         self.color = WHITE
 
 
-def initialize_buttons(screen):
+def initialize_buttons(screen, algorithm_running=False):
     sorting_buttons = {"Selection Sort": Button(50, 30, label="Selection Sort"),
                        "Insertion Sort": Button(100+BUTTON_WIDTH, 30, label="Insertion Sort"),
                        "Merge Sort": Button(150+2*BUTTON_WIDTH, 30,
@@ -67,6 +68,7 @@ def initialize_buttons(screen):
                        "Quick Sort": Button(200+3*BUTTON_WIDTH, 30, label="Quick Sort")}
 
     screen.add_buttons("sorting_buttons", sorting_buttons)
+    update_sorting_buttons(screen)
 
     action_buttons = {"RUN": Button(400 + 6*BUTTON_WIDTH, 30, label="RUN",
                                     color=GREEN),
