@@ -1,6 +1,7 @@
 import pygame
 import random
 
+
 WINDOW_WIDTH, WINDOW_HEIGHT = 1500, 950
 TOP_BAR = 250
 BOTTOM_BAR = 50

@@ -1,6 +1,6 @@
 from constants import *
 from array_wrapper import ArrayWrapper
-# from buttons import initialize_buttons
+from buttons import initialize_buttons
 # from legend import initialize_legend
 
 import pygame
@@ -16,7 +16,7 @@ class Screen:
         self.legend = None
         self.array = None
         self.selected_algorithm = None
-        self.delay_multiplier = 1
+        self.delay = 0
 
     def draw(self):
         self.animate = False
@@ -24,18 +24,18 @@ class Screen:
 
         self.array.draw(self)
 
-        # self.draw_buttons()
+        self.draw_buttons()
 
         self.animate = True
         pygame.display.update()
 
-    # def draw_buttons(self):
-    #     if self.buttons:
-    #         for current_buttons in self.buttons.values():
-    #             for button in current_buttons.values():
-    #                 button.draw(self.window)
+    def draw_buttons(self):
+        if self.buttons:
+            for current_buttons in self.buttons.values():
+                for button in current_buttons.values():
+                    button.draw(self.window)
 
-    #     pygame.display.update()
+        pygame.display.update()
 
     # def resize(self, new_window):
     #     self.window = new_window
@@ -49,17 +49,11 @@ class Screen:
 
     #     self.draw()
 
-    # def reset_delay_multiplier(self):
-    #     self.delay_multiplier = 1
-
-    # def add_buttons(self, label, buttons):
-    #     self.buttons[label] = buttons
+    def add_buttons(self, label, buttons):
+        self.buttons[label] = buttons
 
     # def update_legend(self, new_legend):
     #     self.legend = new_legend
-
-    # def update_graph_size(self, new_graph_size):
-    #     self.graph = Graph(self.window, new_graph_size, self.graph.gridlines)
 
     # def update_animation_speed(self, new_animation_speed):
     #     self.animation_speed = new_animation_speed
@@ -79,6 +73,6 @@ def initialize_screen(window):
         screen.animation_speed = "N"
 
     # screen.update_legend(initialize_legend(screen))
-    # initialize_buttons(screen)
+    initialize_buttons(screen)
 
     return screen

@@ -5,6 +5,15 @@ SIDE_BAR = 50
 BUTTON_WIDTH, BUTTON_HEIGHT = 150, 50
 FONT = None
 
+SMALL, MEDIUM, LARGE = 50, 100, 200
+SLOW, NORMAL, FAST = "S", "N", "F"
+
+DELAYS = {
+    "S": 30,
+    "N": 15,
+    "F": 1
+}
+
 max_value = None
 animation_speed = "F"
 size = "M"
