@@ -1,7 +1,7 @@
 from constants import *
 from array_wrapper import ArrayWrapper
 from buttons import initialize_buttons
-# from legend import initialize_legend
+from legend import initialize_legend
 
 import pygame
 
@@ -22,9 +22,15 @@ class Screen:
         self.animate = False
         self.window.fill(self.background)
 
-        self.array.draw(self)
+        if self.array:
+            self.array.draw(self)
 
-        self.draw_buttons()
+        if self.legend:
+            for node in self.legend.nodes:
+                node.draw(self.window)
+
+        if self.buttons:
+            self.draw_buttons()
 
         self.animate = True
         pygame.display.update()
@@ -42,7 +48,7 @@ class Screen:
     #     if self.graph:
     #         self.graph.resize_nodes(new_window)
     #         if self.legend:
-    #             self.update_legend(initialize_legend(self))
+    #             initialize_legend(self)
     #         if self.buttons:
     #             algorithm_running = not self.buttons["action_buttons"]["RUN"].visible
     #             initialize_buttons(self, algorithm_running)
@@ -52,11 +58,11 @@ class Screen:
     def add_buttons(self, label, buttons):
         self.buttons[label] = buttons
 
-    # def update_legend(self, new_legend):
-    #     self.legend = new_legend
+    def update_legend(self, new_legend):
+        self.legend = new_legend
 
-    # def update_animation_speed(self, new_animation_speed):
-    #     self.animation_speed = new_animation_speed
+    def update_animation_speed(self, new_animation_speed):
+        self.animation_speed = new_animation_speed
 
 
 def initialize_screen(window):
@@ -72,7 +78,7 @@ def initialize_screen(window):
         screen.array = ArrayWrapper(100)
         screen.animation_speed = "N"
 
-    # screen.update_legend(initialize_legend(screen))
+    initialize_legend(screen)
     initialize_buttons(screen)
 
     return screen
