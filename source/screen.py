@@ -69,18 +69,14 @@ def initialize_screen(window):
     screen = Screen(window)
     screen = Screen(window, background=BLACK)
 
-    screen.array = ArrayWrapper(100)
-
-    # try:
-    #     with open("settings.txt", "r") as file:
-    #         graph_size, gridlines, animation_speed = file.readline().split(" ")
-    #         screen.graph = (Graph(window, size=int(graph_size)))
-    #         screen.graph.gridlines = bool(int(gridlines))
-    #         screen.animation_speed = animation_speed
-    # except FileNotFoundError:
-    #     screen.gridlines = False
-    #     screen.graph = (Graph(window, size="M"))
-    #     screen.animation_speed = "N"
+    try:
+        with open("settings.txt", "r") as file:
+            array_size, animation_speed = file.readline().split(" ")
+            screen.array = ArrayWrapper(int(array_size))
+            screen.animation_speed = animation_speed
+    except FileNotFoundError:
+        screen.array = ArrayWrapper(100)
+        screen.animation_speed = "N"
 
     # screen.update_legend(initialize_legend(screen))
     # initialize_buttons(screen)

@@ -1,4 +1,5 @@
 from constants import *
+from helpers import *
 from screen import initialize_screen
 
 import pygame
@@ -14,7 +15,8 @@ def main():
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return 0
+                save_settings(screen)
+                return
 
             if pygame.mouse.get_pressed()[0]:
                 pos = pygame.mouse.get_pos()

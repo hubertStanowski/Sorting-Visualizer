@@ -6,8 +6,9 @@ import pygame
 
 class ArrayWrapper:
     def __init__(self, array_size) -> None:
-        self.array = [i for i in range(1, array_size + 1)]
-        shuffle(self.array)
+        self.values = [i for i in range(1, array_size + 1)]
+        self.size = array_size
+        shuffle(self.values)
 
     def draw(self, screen):
         visual_array = self.generate_visual_array()
@@ -15,11 +16,11 @@ class ArrayWrapper:
             node.draw(screen)
 
     def generate_visual_array(self):
-        stripe_width = (WINDOW_WIDTH - SIDE_BAR*2) // len(self.array)
-        visual_array = self.array.copy()
-        for i in range(len(self.array)):
+        stripe_width = (WINDOW_WIDTH - SIDE_BAR*2) // self.size
+        visual_array = self.values.copy()
+        for i in range(self.size):
             stripe_height = round(
-                self.array[i] / len(self.array) * (WINDOW_HEIGHT-TOP_BAR-BOTTOM_BAR))
+                self.values[i] / self.size * (WINDOW_HEIGHT-TOP_BAR-BOTTOM_BAR))
             visual_array[i] = ArrayNode(
                 x=stripe_width * i + SIDE_BAR,
                 y=WINDOW_HEIGHT - stripe_height - BOTTOM_BAR,
