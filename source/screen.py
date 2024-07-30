@@ -47,7 +47,6 @@ class Screen:
     def resize(self, new_window):
         self.window = new_window
         if self.array:
-            # self.array.resize_nodes(new_window)
             if self.legend:
                 initialize_legend(self)
             if self.buttons:

@@ -1,4 +1,5 @@
 from constants import *
+from helpers import *
 
 from random import shuffle
 import pygame
@@ -11,31 +12,36 @@ class ArrayWrapper:
         self.shuffle()
 
     def draw(self, screen):
-        visual_array = self.generate_visual_array()
+        visual_array = self.generate_visual_array(screen.window)
         for node in visual_array:
             node.draw(screen)
 
-    def generate_visual_array(self):
-        stripe_width = (WINDOW_WIDTH - SIDE_BAR*2) // self.size
+    def generate_visual_array(self, window):
+        array_width, array_height = get_array_size(window)
+        side_bottom_bar = get_side_bottom_bar_size(window)
+        _, window_height = window.get_size()
+
+        stripe_width = (array_width) / self.size
         visual_array = self.values.copy()
         for i in range(self.size):
-            stripe_height = round(
-                self.values[i] / self.size * (WINDOW_HEIGHT-TOP_BAR-BOTTOM_BAR))
+            stripe_height = round(self.values[i] / self.size * (array_height))
             visual_array[i] = ArrayNode(
-                x=stripe_width * i + SIDE_BAR,
-                y=WINDOW_HEIGHT - stripe_height - BOTTOM_BAR,
+                x=stripe_width * i + side_bottom_bar,
+                y=window_height - stripe_height - side_bottom_bar,
                 width=stripe_width,
                 height=stripe_height,
-                color=WHITE,
+                color=WHITE
             )
         return visual_array
 
     def shuffle(self):
         shuffle(self.values)
 
-# TODO
-    def resize_nodes(self):
-        pass
+# WINDOW_WIDTH, WINDOW_HEIGHT = 1500, 1000
+# TOP_BAR = 250
+# BOTTOM_BAR = 50
+# SIDE_BAR = 50
+# BUTTON_WIDTH, BUTTON_HEIGHT = 150, 50
 
 
 class ArrayNode:

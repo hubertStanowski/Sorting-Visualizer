@@ -1,9 +1,9 @@
 WINDOW_WIDTH, WINDOW_HEIGHT = 1500, 1000
-TOP_BAR = 250
+TOP_BAR = 200
 BOTTOM_BAR = 50
 SIDE_BAR = 50
 BUTTON_WIDTH, BUTTON_HEIGHT = 150, 50
-FONT = None
+
 
 SMALL, MEDIUM, LARGE = 50, 100, 200
 SLOW, NORMAL, FAST = "S", "N", "F"
@@ -14,10 +14,7 @@ DELAYS = {
     "F": 1
 }
 
-max_value = None
-animation_speed = "F"
-size = "M"
-delay = 0
+FONT = None
 
 BLACK = (0, 0, 0)
 BLUE = (0, 0, 255)

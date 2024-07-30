@@ -25,6 +25,29 @@ def get_updated_screen_dimensions(old_dimensions, new_dimensions):
     return new_width, new_height
 
 
+def get_side_bottom_bar_size(window):
+    _, window_height = window.get_size()
+
+    return 0.05 * window_height
+
+
+def get_top_bar_size(window):
+    _, window_height = window.get_size()
+
+    return 0.2 * window_height
+
+
+def get_array_size(window):
+    window_width, window_height = window.get_size()
+    side_bottom_bar = get_side_bottom_bar_size(window)
+    top_bar = get_top_bar_size(window)
+
+    array_width = window_width - (side_bottom_bar * 2)
+    array_height = window_height - top_bar
+
+    return array_width, array_height
+
+
 def update_animation_buttons(screen):
     for label, button in screen.buttons["animation_buttons"].items():
         if label == screen.animation_speed:
