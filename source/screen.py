@@ -17,7 +17,6 @@ class Screen:
         self.array = None
         self.selected_algorithm = None
         self.algorithm_running = False
-        self.delay = 0
 
     def draw(self):
         self.animate = False

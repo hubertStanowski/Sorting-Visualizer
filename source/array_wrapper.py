@@ -11,10 +11,15 @@ class ArrayWrapper:
         self.size = array_size
         self.shuffle()
 
-    def draw(self, screen):
-        visual_array = self.generate_visual_array(screen.window)
+    def draw(self, screen, visual_array=None):
+        visual_array = visual_array if visual_array else self.generate_visual_array(
+            screen.window)
+
         for node in visual_array:
             node.draw(screen)
+
+        if screen.animate:
+            pygame.display.update()
 
     def generate_visual_array(self, window):
         array_width, array_height = get_array_size(window, self)
@@ -38,6 +43,20 @@ class ArrayWrapper:
     def shuffle(self):
         shuffle(self.values)
 
+    def scan(self, screen):
+        visual_array = self.generate_visual_array(screen.window)
+
+        for node in visual_array:
+            run_checks(screen)
+            node.set_current()
+            node.draw(screen)
+            pygame.time.delay(DELAYS[screen.animation_speed])
+
+        pygame.time.delay(DELAYS[screen.animation_speed]*5)
+        for node in visual_array:
+            node.reset()
+
+
 # WINDOW_WIDTH, WINDOW_HEIGHT = 1500, 1000
 # TOP_BAR = 250
 # BOTTOM_BAR = 50
@@ -59,3 +78,12 @@ class ArrayNode:
 
         pygame.draw.rect(screen.window, (0, 0, 0),
                          (self.x, self.y, self.width, self.height), 1)
+
+        if screen.animate:
+            pygame.display.update()
+
+    def set_current(self):
+        self.color = GREEN
+
+    def reset(self):
+        self.color = WHITE

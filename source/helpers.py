@@ -1,6 +1,10 @@
 from constants import *
 
 
+def run_checks(screen):
+    pass
+
+
 def save_settings(screen):
     with open("settings.txt", "w") as file:
         file.write(f"{screen.array.size} ")

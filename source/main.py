@@ -5,14 +5,6 @@ from screen import initialize_screen
 import pygame
 
 
-def get_divisors(num):
-    divisors = []
-    for i in range(1, num+1):
-        if num % i == 0:
-            divisors.append(i)
-    return divisors
-
-
 def main():
     pygame.init()
     window = pygame.display.set_mode(
@@ -44,7 +36,8 @@ def main():
                 for label, button in screen.buttons["action_buttons"].items():
                     if button.clicked(pos):
                         if label == "RUN" and screen.selected_algorithm:
-                            toggle_run_finish_buttons(screen)
+                            # toggle_run_finish_buttons(screen)
+                            screen.array.scan(screen)
                             # toggle_run_finish_buttons(screen)
                             # visual_array = generate_visual_array(selected_algorithm(
                             #     array, visual_array))
