@@ -8,7 +8,7 @@ class ArrayWrapper:
     def __init__(self, array_size) -> None:
         self.values = [i for i in range(1, array_size + 1)]
         self.size = array_size
-        shuffle(self.values)
+        self.shuffle()
 
     def draw(self, screen):
         visual_array = self.generate_visual_array()
@@ -29,6 +29,13 @@ class ArrayWrapper:
                 color=WHITE,
             )
         return visual_array
+
+    def shuffle(self):
+        shuffle(self.values)
+
+# TODO
+    def resize_nodes(self):
+        pass
 
 
 class ArrayNode:

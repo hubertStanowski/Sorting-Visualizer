@@ -4,6 +4,8 @@ from screen import initialize_screen
 
 import pygame
 
+# TODO resizing
+
 
 def main():
     pygame.init()
@@ -33,6 +35,31 @@ def main():
 
             if pygame.mouse.get_pressed()[0]:
                 pos = pygame.mouse.get_pos()
+                for label, button in screen.buttons["action_buttons"].items():
+                    if button.clicked(pos):
+                        if label == "RUN" and screen.selected_algorithm:
+                            toggle_run_finish_buttons(screen)
+                            # toggle_run_finish_buttons(screen)
+                            # visual_array = generate_visual_array(selected_algorithm(
+                            #     array, visual_array))
+                            # final_scan(visual_array)
+                        elif label == "SHUFFLE":
+                            screen.array.shuffle()
+
+                for label, button in screen.buttons["size_buttons"].items():
+                    if button.clicked(pos):
+                        screen.update_array_size(label)
+                        update_size_buttons(screen)
+
+                for label, button in screen.buttons["animation_buttons"].items():
+                    if button.clicked(pos):
+                        screen.update_animation_speed(label)
+                        update_animation_buttons(screen)
+
+                for label, button in screen.buttons["sorting_buttons"].items():
+                    if button.clicked(pos):
+                        screen.selected_algorithm = label
+                        update_sorting_buttons(screen)
 
 
 if __name__ == "__main__":

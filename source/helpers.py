@@ -47,3 +47,15 @@ def update_sorting_buttons(screen):
             button.select()
         else:
             button.unselect()
+
+
+def toggle_run_finish_buttons(screen):
+    run, finish = screen.buttons["action_buttons"]["RUN"], screen.buttons["action_buttons"]["FINISH"]
+    run.visible = not run.visible
+    finish.visible = not finish.visible
+
+    # current_time = pygame.time.get_ticks()
+    # run.last_click_time = current_time
+    # finish.last_click_time = current_time
+
+    screen.draw_buttons()

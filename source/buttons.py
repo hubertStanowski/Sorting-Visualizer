@@ -17,6 +17,8 @@ class Button():
         self.visible = visible
 
     def draw(self, window):
+        if not self.visible:
+            return
         pygame.draw.rect(window, self.color, self.rect)
         font = pygame.font.SysFont(FONT, 30)
         label = font.render(self.text, True, BLACK)
@@ -25,6 +27,17 @@ class Button():
             center=(self.x + self.width // 2, self.y + self.height // 2))
 
         window.blit(label, label_rect)
+
+    def clicked(self, pos):
+        valid = (self.visible and self.rect.collidepoint(pos))
+        # if self.cooldown:
+        #     current_time = pygame.time.get_ticks()
+        #     valid = valid and (
+        #         current_time-self.last_click_time) > self.cooldown
+        #     if valid:
+        #         self.last_click_time = current_time
+
+        return valid
 
     def select(self):
         self.color = SELECTION_COLOR
@@ -53,6 +66,9 @@ class SmallButton:
 
         window.blit(label, label_rect)
 
+    def clicked(self, pos):
+        return self.rect.collidepoint(pos)
+
     def select(self):
         self.color = SELECTION_COLOR
 
@@ -72,6 +88,8 @@ def initialize_buttons(screen, algorithm_running=False):
 
     action_buttons = {"RUN": Button(400 + 6*BUTTON_WIDTH, 30, label="RUN",
                                     color=GREEN),
+                      "FINISH": Button(400 + 6*BUTTON_WIDTH, 30, label="FINISH",
+                                       color=BLUE, visible=False),
                       "SHUFFLE": Button(350 + 5*BUTTON_WIDTH, 30, label="SHUFFLE",
                                         color=YELLOW)}
 
