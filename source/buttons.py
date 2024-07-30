@@ -77,14 +77,13 @@ class SmallButton:
 
 def initialize_buttons(screen, algorithm_running=False):
     window = screen.window
-    window_width, window_height = window.get_size()
-    top_bar = get_top_bar_size(window)
+    window_width, _ = window.get_size()
     side_bar = get_side_bar_size(window, screen.array)
     small_button_size = get_small_button_size(window)
-    big_button_width, big_button_height = get_big_button_size(window)
+    big_button_width, _ = get_big_button_size(window)
 
     # Initialize sorting buttons
-    x, y = side_bar * 0.5, small_button_size
+    x, y = side_bar * 0.2, small_button_size
     diff = big_button_width + window_width * 0.01
 
     sorting_buttons = {"Selection Sort": BigButton(screen, x, y, label="Selection Sort"),
@@ -99,7 +98,7 @@ def initialize_buttons(screen, algorithm_running=False):
 
     # Initialize action buttons
     left_x = x + diff*4 + big_button_width
-    x = window_width-side_bar*0.5-big_button_width
+    x = window_width-side_bar*0.2-big_button_width
 
     action_buttons = {"RUN": BigButton(screen, x, y, label="RUN",
                                        color=GREEN, font_multiplier=1.3),
@@ -126,6 +125,7 @@ def initialize_buttons(screen, algorithm_running=False):
     screen.add_buttons("animation_buttons", animation_buttons)
     update_animation_buttons(screen)
 
+    # Initialize array size buttons
     size_buttons = {SMALL: SmallButton(screen, "S", right_x - diff*2 - offset, y),
                     MEDIUM: SmallButton(screen, "M", right_x - diff - offset, y),
                     LARGE: SmallButton(screen, "L", right_x - offset, y)}

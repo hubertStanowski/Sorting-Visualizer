@@ -1,4 +1,5 @@
 from constants import *
+from helpers import *
 
 import pygame
 
@@ -16,25 +17,30 @@ class Legend:
 
 
 class LegendNode:
-    def __init__(self, label, x, y, color=None) -> None:
+    def __init__(self, label, x, y) -> None:
         self.label = label
         self.x = x
         self.y = y
-        self.color = color
 
     def draw(self, window):
-        font = pygame.font.SysFont(FONT, 32)
+        font = pygame.font.SysFont(FONT, get_legend_font_size(window))
 
-        font = pygame.font.SysFont(FONT, 32)
         label = font.render(self.label, True, LEGEND_FONT_COLOR)
-
-        text_rect = pygame.Rect(self.x, self.y, 100, 50)
-        window.blit(label, text_rect)
+        label_rect = label.get_rect(center=(self.x, self.y))
+        window.blit(label, label_rect)
 
 
 def initialize_legend(screen):
     legend = Legend()
-    legend.add_node(LegendNode("Speed", 400+3*BUTTON_WIDTH-4, 7))
-    legend.add_node(LegendNode("Size", 400+4*BUTTON_WIDTH-4, 7))
+
+    small_button_size = get_small_button_size(screen.window)
+    animation_speed_x = screen.buttons["animation_buttons"][NORMAL].x
+    size_x = screen.buttons["size_buttons"][MEDIUM].x
+
+    x = animation_speed_x + small_button_size / 2
+    y = small_button_size
+    legend.add_node(LegendNode("Animation Speed", x, y))
+    x = size_x + small_button_size / 2
+    legend.add_node(LegendNode("Array Size", x, y))
 
     screen.update_legend(legend)

@@ -26,9 +26,9 @@ class Screen:
         if self.array:
             self.array.draw(self)
 
-        # if self.legend:
-        #     for node in self.legend.nodes:
-        #         node.draw(self.window)
+        if self.legend:
+            for node in self.legend.nodes:
+                node.draw(self.window)
 
         if self.buttons:
             self.draw_buttons()
@@ -47,11 +47,11 @@ class Screen:
     def resize(self, new_window):
         self.window = new_window
         if self.array:
-            if self.legend:
-                initialize_legend(self)
             if self.buttons:
                 algorithm_running = not self.buttons["action_buttons"]["RUN"].visible
                 initialize_buttons(self, algorithm_running)
+            if self.legend:
+                initialize_legend(self)
 
         self.draw()
 
@@ -82,7 +82,7 @@ def initialize_screen(window):
         screen.array = ArrayWrapper(100)
         screen.animation_speed = "N"
 
-    initialize_legend(screen)
     initialize_buttons(screen)
+    initialize_legend(screen)
 
     return screen

@@ -80,6 +80,12 @@ def get_big_button_font_size(window):
     return round(0.5 * big_button_height)
 
 
+def get_legend_font_size(window):
+    window_width, _ = window.get_size()
+
+    return round(window_width * 0.015)
+
+
 def update_animation_buttons(screen):
     for label, button in screen.buttons["animation_buttons"].items():
         if label == screen.animation_speed:
