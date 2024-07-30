@@ -7,9 +7,10 @@ import pygame
 
 def main():
     pygame.init()
+    display_info = pygame.display.Info()
     window = pygame.display.set_mode(
-        (WINDOW_WIDTH, WINDOW_HEIGHT), pygame.RESIZABLE)
-    pygame.display.set_caption("Sorting Algorithms Visualizer")
+        (display_info.current_w, display_info.current_h), pygame.RESIZABLE)
+    pygame.display.set_caption("Sorting Visualizer")
 
     screen = initialize_screen(window)
 
@@ -36,12 +37,10 @@ def main():
                 for label, button in screen.buttons["action_buttons"].items():
                     if button.clicked(pos):
                         if label == "RUN" and screen.selected_algorithm:
-                            # toggle_run_finish_buttons(screen)
+                            toggle_run_finish_buttons(screen)
+                            # screen.array.sort(screen)
                             screen.array.scan(screen)
-                            # toggle_run_finish_buttons(screen)
-                            # visual_array = generate_visual_array(selected_algorithm(
-                            #     array, visual_array))
-                            # final_scan(visual_array)
+                            toggle_run_finish_buttons(screen)
                         elif label == "SHUFFLE":
                             screen.array.shuffle()
 

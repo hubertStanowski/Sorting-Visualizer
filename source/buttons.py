@@ -101,9 +101,9 @@ def initialize_buttons(screen, algorithm_running=False):
     x = window_width-side_bar*0.2-big_button_width
 
     action_buttons = {"RUN": BigButton(screen, x, y, label="RUN",
-                                       color=GREEN, font_multiplier=1.3),
+                                       color=GREEN, visible=(not algorithm_running), font_multiplier=1.3),
                       "FINISH": BigButton(screen, x, y, label="FINISH",
-                                          color=BLUE, visible=False, font_multiplier=1.3),
+                                          color=BLUE, visible=algorithm_running, font_multiplier=1.3),
                       "SHUFFLE": BigButton(screen, x - diff, y, label="SHUFFLE",
                                            color=YELLOW, font_multiplier=1.3)}
 

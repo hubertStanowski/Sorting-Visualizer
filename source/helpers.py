@@ -1,8 +1,37 @@
 from constants import *
 
+import pygame
 
+
+# Helper function for handling events within algorithms
 def run_checks(screen):
-    pass
+    old_width, old_height = screen.window.get_size()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            save_settings(screen)
+            raise Exception("Exiting the program while executing an algorithm")
+
+        if event.type == pygame.VIDEORESIZE:
+            new_width, new_height = get_updated_screen_dimensions(
+                (old_width, old_height), (event.w, event.h))
+            new_window = pygame.display.set_mode(
+                (new_width, new_height), pygame.RESIZABLE)
+            screen.resize(new_window)
+
+            return RESIZED
+
+        if pygame.mouse.get_pressed()[0]:
+            pos = pygame.mouse.get_pos()
+            finish_button = screen.buttons["action_buttons"]["FINISH"]
+
+            if finish_button.clicked(pos):
+                screen.animate = False
+
+            for label, button in screen.buttons["animation_buttons"].items():
+                if button.clicked(pos):
+                    screen.update_animation_speed(label)
+                    update_animation_buttons(screen)
+                    screen.draw_buttons()
 
 
 def save_settings(screen):

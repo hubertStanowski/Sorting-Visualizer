@@ -18,10 +18,7 @@ class ArrayWrapper:
         for node in visual_array:
             node.draw(screen)
 
-        if screen.animate:
-            pygame.display.update()
-
-    def generate_visual_array(self, window):
+    def generate_visual_array(self, window, old_visual_array=None):
         array_width, array_height = get_array_size(window, self)
         bottom_bar = get_bottom_bar_size(window)
         side_bar = get_side_bar_size(window, self)
@@ -36,7 +33,7 @@ class ArrayWrapper:
                 y=window_height - stripe_height - bottom_bar,
                 width=stripe_width,
                 height=stripe_height,
-                color=WHITE
+                color=old_visual_array[i].color if old_visual_array else WHITE
             )
         return visual_array
 
@@ -46,13 +43,21 @@ class ArrayWrapper:
     def scan(self, screen):
         visual_array = self.generate_visual_array(screen.window)
 
-        for node in visual_array:
-            run_checks(screen)
-            node.set_current()
-            node.draw(screen)
-            pygame.time.delay(DELAYS[screen.animation_speed])
+        for i in range(self.size):
+            command = run_checks(screen)
+            if command == RESIZED:
+                visual_array = self.generate_visual_array(
+                    screen.window, old_visual_array=visual_array)
+                screen.animate = False
+                self.draw(screen, visual_array)
+                screen.animate = True
+            visual_array[i].set_current()
+            visual_array[i].draw(screen)
 
-        pygame.time.delay(DELAYS[screen.animation_speed]*5)
+        pygame.display.update()
+        if screen.animate:
+            pygame.time.delay(DELAYS[screen.animation_speed]*5)
+
         for node in visual_array:
             node.reset()
 
@@ -81,6 +86,7 @@ class ArrayNode:
 
         if screen.animate:
             pygame.display.update()
+            pygame.time.delay(DELAYS[screen.animation_speed])
 
     def set_current(self):
         self.color = GREEN
