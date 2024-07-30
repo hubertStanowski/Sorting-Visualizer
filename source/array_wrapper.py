@@ -17,17 +17,18 @@ class ArrayWrapper:
             node.draw(screen)
 
     def generate_visual_array(self, window):
-        array_width, array_height = get_array_size(window)
-        side_bottom_bar = get_side_bottom_bar_size(window)
+        array_width, array_height = get_array_size(window, self)
+        bottom_bar = get_bottom_bar_size(window)
+        side_bar = get_side_bar_size(window, self)
         _, window_height = window.get_size()
 
-        stripe_width = (array_width) / self.size
+        stripe_width = (array_width) // self.size
         visual_array = self.values.copy()
         for i in range(self.size):
             stripe_height = round(self.values[i] / self.size * (array_height))
             visual_array[i] = ArrayNode(
-                x=stripe_width * i + side_bottom_bar,
-                y=window_height - stripe_height - side_bottom_bar,
+                x=stripe_width * i + side_bar,
+                y=window_height - stripe_height - bottom_bar,
                 width=stripe_width,
                 height=stripe_height,
                 color=WHITE

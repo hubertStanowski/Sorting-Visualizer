@@ -4,24 +4,24 @@ from helpers import *
 import pygame
 
 
-class Button():
-    def __init__(self, x, y, color=WHITE, label="", visible=True):
+class BigButton:
+    def __init__(self, screen, x, y, color=WHITE, label="", visible=True, font_multiplier=1):
         self.x = x
         self.y = y
-        self.width = BUTTON_WIDTH
-        self.height = BUTTON_HEIGHT
+        self.width, self.height = get_big_button_size(screen.window)
+        self.rect = pygame.Rect(x, y, self.width, self.height)
         self.color = color
-        self.rect = pygame.Rect(
-            x, y, BUTTON_WIDTH, BUTTON_HEIGHT)
-        self.text = label
+        self.label = label
         self.visible = visible
+        self.font_multiplier = font_multiplier
 
     def draw(self, window):
         if not self.visible:
             return
         pygame.draw.rect(window, self.color, self.rect)
-        font = pygame.font.SysFont(FONT, 30)
-        label = font.render(self.text, True, BLACK)
+        font = pygame.font.SysFont(
+            FONT, round(get_big_button_font_size(window) * self.font_multiplier))
+        label = font.render(self.label, True, BLACK)
 
         label_rect = label.get_rect(
             center=(self.x + self.width // 2, self.y + self.height // 2))
@@ -47,22 +47,21 @@ class Button():
 
 
 class SmallButton:
-    def __init__(self, text, x, y, color=WHITE):
-        self.text = text
+    def __init__(self, screen, label, x, y, color=WHITE):
+        self.label = label
         self.x = x
         self.y = y
-        self.width = 30
-        self.height = 30
-        self.rect = pygame.Rect(x, y, 30, 30)
+        self.size = get_small_button_size(screen.window)
+        self.rect = pygame.Rect(x, y, self.size, self.size)
         self.color = color
 
     def draw(self, window):
         pygame.draw.rect(window, self.color, self.rect)
-        font = pygame.font.SysFont(FONT, 30)
-        label = font.render(self.text, True, BLACK)
+        font = pygame.font.SysFont(FONT, get_small_button_font_size(window))
+        label = font.render(self.label, True, BLACK)
 
         label_rect = label.get_rect(
-            center=(self.x + self.width // 2, self.y + self.height // 2))
+            center=(self.x + self.size // 2, self.y + self.size // 2))
 
         window.blit(label, label_rect)
 
@@ -77,34 +76,59 @@ class SmallButton:
 
 
 def initialize_buttons(screen, algorithm_running=False):
-    sorting_buttons = {"Selection Sort": Button(50, 30, label="Selection Sort"),
-                       "Insertion Sort": Button(100+BUTTON_WIDTH, 30, label="Insertion Sort"),
-                       "Merge Sort": Button(150+2*BUTTON_WIDTH, 30,
-                                            label="Merge Sort"),
-                       "Quick Sort": Button(200+3*BUTTON_WIDTH, 30, label="Quick Sort")}
+    window = screen.window
+    window_width, window_height = window.get_size()
+    top_bar = get_top_bar_size(window)
+    side_bar = get_side_bar_size(window, screen.array)
+    small_button_size = get_small_button_size(window)
+    big_button_width, big_button_height = get_big_button_size(window)
+
+    # Initialize sorting buttons
+    x, y = side_bar * 0.5, small_button_size
+    diff = big_button_width + window_width * 0.01
+
+    sorting_buttons = {"Selection Sort": BigButton(screen, x, y, label="Selection Sort"),
+                       "Insertion Sort": BigButton(screen, x + diff, y, label="Insertion Sort"),
+                       "? Sort": BigButton(screen, x + diff*2, y, label="? Sort"),
+                       "Merge Sort": BigButton(screen, x + diff*3, y,
+                                               label="Merge Sort"),
+                       "Quick Sort": BigButton(screen, x + diff*4, y, label="Quick Sort")}
 
     screen.add_buttons("sorting_buttons", sorting_buttons)
     update_sorting_buttons(screen)
 
-    action_buttons = {"RUN": Button(400 + 6*BUTTON_WIDTH, 30, label="RUN",
-                                    color=GREEN),
-                      "FINISH": Button(400 + 6*BUTTON_WIDTH, 30, label="FINISH",
-                                       color=BLUE, visible=False),
-                      "SHUFFLE": Button(350 + 5*BUTTON_WIDTH, 30, label="SHUFFLE",
-                                        color=YELLOW)}
+    # Initialize action buttons
+    left_x = x + diff*4 + big_button_width
+    x = window_width-side_bar*0.5-big_button_width
+
+    action_buttons = {"RUN": BigButton(screen, x, y, label="RUN",
+                                       color=GREEN, font_multiplier=1.3),
+                      "FINISH": BigButton(screen, x, y, label="FINISH",
+                                          color=BLUE, visible=False, font_multiplier=1.3),
+                      "SHUFFLE": BigButton(screen, x - diff, y, label="SHUFFLE",
+                                           color=YELLOW, font_multiplier=1.3)}
 
     screen.add_buttons("action_buttons", action_buttons)
 
-    animation_buttons = {SLOW: SmallButton("S", 400+3*BUTTON_WIDTH-20, 40),
-                         NORMAL: SmallButton("N", 435+3*BUTTON_WIDTH-20, 40),
-                         FAST: SmallButton("F", 470+3*BUTTON_WIDTH-20, 40)}
+    # Initialize animation buttons
+    right_x = x - diff - small_button_size
+    y = small_button_size * 1.5
+
+    diff = small_button_size * 1.2
+
+    offset = ((right_x - diff*2) -
+              (left_x+diff*2+small_button_size)) / 3
+
+    animation_buttons = {SLOW: SmallButton(screen, "S", left_x + offset, y),
+                         NORMAL: SmallButton(screen, "N", left_x + diff + offset, y),
+                         FAST: SmallButton(screen, "F", left_x + diff*2 + offset, y)}
 
     screen.add_buttons("animation_buttons", animation_buttons)
     update_animation_buttons(screen)
 
-    size_buttons = {SMALL: SmallButton("S", 400+4*BUTTON_WIDTH-30, 40),
-                    MEDIUM: SmallButton("M", 435+4*BUTTON_WIDTH-30, 40),
-                    LARGE: SmallButton("L", 470+4*BUTTON_WIDTH-30, 40)}
+    size_buttons = {SMALL: SmallButton(screen, "S", right_x - diff*2 - offset, y),
+                    MEDIUM: SmallButton(screen, "M", right_x - diff - offset, y),
+                    LARGE: SmallButton(screen, "L", right_x - offset, y)}
 
     screen.add_buttons("size_buttons", size_buttons)
     update_size_buttons(screen)

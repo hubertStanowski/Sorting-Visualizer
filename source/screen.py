@@ -26,9 +26,9 @@ class Screen:
         if self.array:
             self.array.draw(self)
 
-        if self.legend:
-            for node in self.legend.nodes:
-                node.draw(self.window)
+        # if self.legend:
+        #     for node in self.legend.nodes:
+        #         node.draw(self.window)
 
         if self.buttons:
             self.draw_buttons()

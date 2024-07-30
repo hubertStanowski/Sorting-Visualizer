@@ -25,27 +25,59 @@ def get_updated_screen_dimensions(old_dimensions, new_dimensions):
     return new_width, new_height
 
 
-def get_side_bottom_bar_size(window):
-    _, window_height = window.get_size()
+def get_side_bar_size(window, array):
+    window_width, _ = window.get_size()
+    array_width, _ = get_array_size(window, array)
 
-    return 0.05 * window_height
+    return round((window_width - array_width) / 2)
+
+
+def get_bottom_bar_size(window):
+    _, window_height = window.get_size()
+    return round(window_height * 0.05)
 
 
 def get_top_bar_size(window):
     _, window_height = window.get_size()
 
-    return 0.2 * window_height
+    return round(0.35 * window_height)
 
 
-def get_array_size(window):
+def get_array_size(window, array):
     window_width, window_height = window.get_size()
-    side_bottom_bar = get_side_bottom_bar_size(window)
     top_bar = get_top_bar_size(window)
 
-    array_width = window_width - (side_bottom_bar * 2)
-    array_height = window_height - top_bar
+    array_width = window_width * 0.95
+    array_height = window_height - top_bar*0.6
+
+    array_width //= array.size
+    array_width *= array.size
 
     return array_width, array_height
+
+
+def get_small_button_size(window):
+    _, window_height = window.get_size()
+
+    return window_height * 0.035
+
+
+def get_big_button_size(window):
+    small_button_size = get_small_button_size(window)
+    button_width = small_button_size * 4.25
+    button_height = small_button_size * 5/3
+
+    return button_width, button_height
+
+
+def get_small_button_font_size(window):
+    return round(get_small_button_size(window) * 0.97)
+
+
+def get_big_button_font_size(window):
+    _, big_button_height = get_big_button_size(window)
+
+    return round(0.5 * big_button_height)
 
 
 def update_animation_buttons(screen):
