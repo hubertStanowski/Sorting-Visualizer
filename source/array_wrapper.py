@@ -17,10 +17,6 @@ class ArrayWrapper:
         for idx, node in enumerate(self.values):
             node.draw(screen, idx)
 
-        if screen.animate:
-            pygame.display.update()
-            pygame.time.delay(DELAYS[screen.animation_speed])
-
     def resize_nodes(self, window):
         array_width, array_height = get_array_size(window, self)
 
@@ -92,6 +88,10 @@ class ArrayNode:
 
         pygame.draw.rect(screen.window, (0, 0, 0),
                          (x, y, self.width, self.height), 1)
+
+        if screen.animate:
+            pygame.display.update()
+            pygame.time.delay(DELAYS[screen.animation_speed])
 
     def resize(self, width, height):
         self.width = width
