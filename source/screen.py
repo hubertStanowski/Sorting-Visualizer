@@ -46,6 +46,7 @@ class Screen:
     def resize(self, new_window):
         self.window = new_window
         if self.array:
+            self.array.resize_nodes(new_window)
             if self.buttons:
                 algorithm_running = not self.buttons["action_buttons"]["RUN"].visible
                 initialize_buttons(self, algorithm_running)
@@ -62,7 +63,7 @@ class Screen:
 
     def update_array_size(self, new_size):
         if new_size != self.array.size:
-            self.array = ArrayWrapper(new_size)
+            self.array = ArrayWrapper(self.window, new_size)
 
     def update_animation_speed(self, new_animation_speed):
         self.animation_speed = new_animation_speed
@@ -75,10 +76,10 @@ def initialize_screen(window):
     try:
         with open("settings.txt", "r") as file:
             array_size, animation_speed = file.readline().split(" ")
-            screen.array = ArrayWrapper(int(array_size))
+            screen.array = ArrayWrapper(window, int(array_size))
             screen.animation_speed = animation_speed
     except FileNotFoundError:
-        screen.array = ArrayWrapper(100)
+        screen.array = ArrayWrapper(window, 100)
         screen.animation_speed = "N"
 
     initialize_buttons(screen)
