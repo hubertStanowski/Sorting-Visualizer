@@ -13,9 +13,13 @@ class ArrayWrapper:
         self.shuffle()
         self.resize_nodes(window)
 
-    def draw(self, screen):
+    def draw(self, screen, override_update=False):
         for idx, node in enumerate(self.values):
             node.draw(screen, idx)
+
+        if screen.animate and not override_update:
+            pygame.display.update()
+            pygame.time.delay(DELAYS[screen.animation_speed])
 
     def resize_nodes(self, window):
         array_width, array_height = get_array_size(window, self)
@@ -41,6 +45,8 @@ class ArrayWrapper:
         self.reset_nodes()
         if screen.selected_algorithm == "Selection Sort":
             selection_sort(screen)
+        elif screen.selected_algorithm == "Insertion Sort":
+            insertion_sort(screen)
 
     def scan(self, screen):
         screen.draw()
@@ -51,7 +57,7 @@ class ArrayWrapper:
                 screen.animate = False
                 self.draw(screen)
                 screen.animate = True
-            self.values[i].set_color(SORTED_COLOR)
+            self.values[i].set_color(CURRENT_COLOR)
             self.values[i].draw(screen, i)
             if screen.animate:
                 pygame.display.update()
@@ -59,7 +65,7 @@ class ArrayWrapper:
 
         pygame.display.update()
         if screen.animate:
-            pygame.time.delay(DELAYS[screen.animation_speed]*5)
+            pygame.time.delay(DELAYS[screen.animation_speed]*10)
 
         self.reset_nodes()
 
@@ -88,10 +94,6 @@ class ArrayNode:
 
         pygame.draw.rect(screen.window, (0, 0, 0),
                          (x, y, self.width, self.height), 1)
-
-        if screen.animate:
-            pygame.display.update()
-            pygame.time.delay(DELAYS[screen.animation_speed])
 
     def resize(self, width, height):
         self.width = width
