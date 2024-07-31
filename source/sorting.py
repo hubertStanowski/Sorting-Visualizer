@@ -47,32 +47,32 @@ def swap(screen, i, j):
     array.values[i], array.values[j] = array.values[j], array.values[i]
 
 
-# def insertion_sort(screen):
-#     for i in range(1, screen.array.size):
-#         insert(screen, i)
+def insertion_sort(screen):
+    for i in range(1, screen.array.size):
+        insert(screen, i)
 
 
-# def insert(screen, start_idx):
-#     array = screen.array
-#     current_idx = start_idx
-#     current = array.values[current_idx]
+def insert(screen, start_idx):
+    array = screen.array
+    current_idx = start_idx
+    current = array.values[current_idx]
 
-#     array.values[start_idx].set_color(GREEN)
+    array.values[start_idx].set_color(GREEN)
 
-#     prev_idx = current_idx - 1
-#     while prev_idx >= 0 and current < array.values[prev_idx]:
-#         run_checks(screen)
+    prev_idx = current_idx - 1
+    while prev_idx >= 0 and current < array.values[prev_idx]:
+        run_checks(screen)
 
-#         swap(screen, current_idx, prev_idx)
+        swap(screen, current_idx, prev_idx)
 
-#         array.values[current_idx].set_color(RED)
-#         array.values[prev_idx].set_color(BLUE)
+        array.values[current_idx].set_color(RED)
+        array.values[prev_idx].set_color(BLUE)
 
-#         if screen.animate:
-#             array.draw(screen)
+        if screen.animate:
+            array.draw(screen)
 
-#         array.values[current_idx].reset()
-#         array.values[prev_idx].reset()
+        array.values[current_idx].reset()
+        array.values[prev_idx].reset()
 
-#         prev_idx -= 1
-#         current_idx -= 1
+        prev_idx -= 1
+        current_idx -= 1
