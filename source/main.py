@@ -38,7 +38,8 @@ def main():
                     if button.clicked(pos):
                         if label == "RUN" and screen.selected_algorithm:
                             toggle_run_finish_buttons(screen)
-                            # screen.array.sort(screen)
+                            screen.array.sort(screen)
+                            screen.animate = True
                             screen.array.scan(screen)
                             toggle_run_finish_buttons(screen)
                         elif label == "SHUFFLE":

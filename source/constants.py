@@ -4,7 +4,7 @@ SLOW, NORMAL, FAST = "S", "N", "F"
 DELAYS = {
     "S": 30,
     "N": 15,
-    "F": 1
+    "F": 2
 }
 
 FONT = None
@@ -21,4 +21,9 @@ VIOLET = (186, 85, 211)
 SELECTION_COLOR = VIOLET
 LEGEND_FONT_COLOR = WHITE
 
+SORTED_COLOR = GREEN
+SCAN_COLOR = BLUE
+MIN_COLOR = RED
+
+# run_checks() output commands
 RESIZED = 999

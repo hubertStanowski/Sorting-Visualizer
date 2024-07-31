@@ -16,6 +16,7 @@ class ArrayWrapper:
     def draw(self, screen):
         for idx, node in enumerate(self.values):
             node.draw(screen, idx)
+
         if screen.animate:
             pygame.display.update()
             pygame.time.delay(DELAYS[screen.animation_speed])
@@ -28,7 +29,6 @@ class ArrayWrapper:
             stripe_height = round(
                 self.values[i].value / self.size * (array_height))
             self.values[i].resize(
-                # y=window_height - stripe_height - bottom_bar,
                 width=stripe_width,
                 height=stripe_height
             )
@@ -36,25 +36,6 @@ class ArrayWrapper:
     def reset_nodes(self):
         for node in self.values:
             node.reset()
-
-    # def generate_visual_array(self, window, old_visual_array=None):
-    #     array_width, array_height = get_array_size(window, self)
-    #     bottom_bar = get_bottom_bar_size(window)
-    #     side_bar = get_side_bar_size(window, self)
-    #     _, window_height = window.get_size()
-
-    #     stripe_width = (array_width) // self.size
-    #     visual_array = self.values.copy()
-    #     for i in range(self.size):
-    #         stripe_height = round(self.values[i] / self.size * (array_height))
-    #         visual_array[i] = ArrayNode(
-    #             x=stripe_width * i + side_bar,
-    #             y=window_height - stripe_height - bottom_bar,
-    #             width=stripe_width,
-    #             height=stripe_height,
-    #             color=old_visual_array[i].color if old_visual_array else WHITE
-    #         )
-    #     return visual_array
 
     def shuffle(self):
         shuffle(self.values)
@@ -66,6 +47,7 @@ class ArrayWrapper:
             selection_sort(screen)
 
     def scan(self, screen):
+        screen.draw()
         for i in range(self.size):
             command = run_checks(screen)
             if command == RESIZED:
@@ -73,9 +55,10 @@ class ArrayWrapper:
                 screen.animate = False
                 self.draw(screen)
                 screen.animate = True
-            self.values[i].set_current()
+            self.values[i].set_color(SORTED_COLOR)
             self.values[i].draw(screen, i)
             if screen.animate:
+                pygame.display.update()
                 pygame.time.delay(DELAYS[screen.animation_speed])
 
         pygame.display.update()
@@ -114,8 +97,8 @@ class ArrayNode:
         self.width = width
         self.height = height
 
-    def set_current(self):
-        self.color = GREEN
+    def set_color(self, new_color):
+        self.color = new_color
 
     def reset(self):
         self.color = WHITE
