@@ -47,6 +47,9 @@ class ArrayWrapper:
             selection_sort(screen)
         elif screen.selected_algorithm == "Insertion Sort":
             insertion_sort(screen)
+        elif screen.selected_algorithm == "Merge Sort":
+            merge_sort(screen, 0, self.size-1)
+        self.reset_nodes()
 
     def scan(self, screen):
         screen.draw()
@@ -107,3 +110,6 @@ class ArrayNode:
 
     def __lt__(self, other):
         return self.value < other.value
+
+    def __eq__(self, other):
+        return self.value == other.value
