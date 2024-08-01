@@ -49,6 +49,8 @@ class ArrayWrapper:
             insertion_sort(screen)
         elif screen.selected_algorithm == "Merge Sort":
             merge_sort(screen, 0, self.size-1)
+        elif screen.selected_algorithm == "Quick Sort":
+            quick_sort(screen, 0, self.size-1)
         self.reset_nodes()
 
     def scan(self, screen):

@@ -1,6 +1,8 @@
 from constants import *
 from helpers import run_checks
 
+from random import randrange
+
 
 def selection_sort(screen):
     array = screen.array
@@ -154,3 +156,44 @@ def merge(screen, start, mid, end):
         screen.array.values[merge_idx].value = right[right_idx]
         right_idx += 1
         merge_idx += 1
+
+
+def quick_sort(screen, start, end):
+    if screen.array.size < 2 or start >= end:
+        return
+
+    pivot_idx = random_partition(screen, start, end)
+    quick_sort(screen, start, pivot_idx - 1)
+    quick_sort(screen, pivot_idx + 1, end)
+
+
+def partition(screen, start, end):
+    array = screen.array
+    seperator_idx = start + 1
+    pivot = array.values[start].value
+    for j in range(start + 1, end + 1):
+        run_checks(screen)
+
+        if screen.animate:
+            array.values[seperator_idx].color = RED
+            array.values[start].color = GREEN
+            array.values[j].color = BLUE
+            array.draw(screen)
+            array.reset_nodes()
+
+        if array.values[j].value <= pivot:
+            swap(screen, seperator_idx, j)
+            seperator_idx += 1
+
+    swap(screen, seperator_idx-1, start)
+
+    array.draw(screen)
+
+    return seperator_idx - 1
+
+
+def random_partition(screen, start, end):
+    pivot_idx = randrange(start, end)
+    swap(screen, start, pivot_idx)
+
+    return partition(screen, start, end)
