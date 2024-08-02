@@ -1,11 +1,12 @@
 from constants import *
 from helpers import *
 
+from math import inf
 import pygame
 
 
 class BigButton:
-    def __init__(self, screen, x, y, color=WHITE, label="", visible=True, font_multiplier=1):
+    def __init__(self, screen, x, y, color=WHITE, label="", visible=True, cooldown=0, font_multiplier=1):
         self.x = x
         self.y = y
         self.width, self.height = get_big_button_size(screen.window)
@@ -13,6 +14,8 @@ class BigButton:
         self.color = color
         self.label = label
         self.visible = visible
+        self.cooldown = cooldown
+        self.last_click_time = -inf
         self.font_multiplier = font_multiplier
 
     def draw(self, window):
@@ -30,12 +33,12 @@ class BigButton:
 
     def clicked(self, pos):
         valid = (self.visible and self.rect.collidepoint(pos))
-        # if self.cooldown:
-        #     current_time = pygame.time.get_ticks()
-        #     valid = valid and (
-        #         current_time-self.last_click_time) > self.cooldown
-        #     if valid:
-        #         self.last_click_time = current_time
+        if self.cooldown:
+            current_time = pygame.time.get_ticks()
+            valid = valid and (
+                current_time-self.last_click_time) > self.cooldown
+            if valid:
+                self.last_click_time = current_time
 
         return valid
 
@@ -101,9 +104,9 @@ def initialize_buttons(screen, algorithm_running=False):
     x = window_width-side_bar*0.2-big_button_width
 
     action_buttons = {"RUN": BigButton(screen, x, y, label="RUN",
-                                       color=GREEN, visible=(not algorithm_running), font_multiplier=1.3),
+                                       color=GREEN, visible=(not algorithm_running), cooldown=DEFAULT_BUTTON_COOLDOWN, font_multiplier=1.3),
                       "FINISH": BigButton(screen, x, y, label="FINISH",
-                                          color=BLUE, visible=algorithm_running, font_multiplier=1.3),
+                                          color=BLUE, visible=algorithm_running, cooldown=DEFAULT_BUTTON_COOLDOWN, font_multiplier=1.3),
                       "SHUFFLE": BigButton(screen, x - diff, y, label="SHUFFLE",
                                            color=YELLOW, font_multiplier=1.3)}
 

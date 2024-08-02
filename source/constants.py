@@ -7,6 +7,7 @@ DELAYS = {
     "F": 2
 }
 
+DEFAULT_BUTTON_COOLDOWN = 200
 FONT = None
 
 BLACK = (0, 0, 0)
