@@ -29,6 +29,7 @@ def find_min_idx(screen, start_idx):
 
     for i in range(start_idx+1, array.size):
         run_checks(screen)
+
         if screen.animate:
             array.values[i].set_color(SCAN_COLOR)
             array.values[min_idx].set_color(MIN_COLOR)
@@ -148,8 +149,7 @@ def merge(screen, start, mid, end):
             array.values[mid+right_idx].set_color(RED)
             array.values[end].set_color(GREEN)
             array.values[merge_idx].set_color(BLUE)
-            if screen.animate:
-                array.draw(screen)
+            array.draw(screen)
             array.reset_nodes()
             array.resize_nodes(screen.window)
 
@@ -175,9 +175,9 @@ def partition(screen, start, end):
         run_checks(screen)
 
         if screen.animate:
-            array.values[seperator_idx].color = RED
-            array.values[start].color = GREEN
-            array.values[j].color = BLUE
+            array.values[seperator_idx].set_color(RED)
+            array.values[start].set_color(GREEN)
+            array.values[j].set_color(BLUE)
             array.draw(screen)
             array.reset_nodes()
 
