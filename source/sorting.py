@@ -191,34 +191,34 @@ def random_partition(screen, start, end):
     return partition(screen, start, end)
 
 
-# def tim_sort(screen):
-#     array = screen.array
-#     min_run = get_min_run_size(array.size)
+def tim_sort(screen):
+    array = screen.array
+    min_run = get_min_run_size(array.size)
 
-#     # Sort subarrays of size min_run
-#     for start in range(0, array.size, min_run):
-#         end = min(start + min_run - 1, array.size - 1)
-#         insertion_sort(screen, start, end)
+    # Sort subarrays of size min_run
+    for start in range(0, array.size, min_run):
+        end = min(start + min_run - 1, array.size - 1)
+        insertion_sort(screen, start, end)
 
-#     # Merge those individual arrays sorted earlier using insertion_sort
-#     merge_size = min_run
-#     while merge_size < array.size:
-#         for start in range(0, array.size, 2 * merge_size):
-#             mid = min(array.size - 1, start + merge_size - 1)
-#             end = min((start + 2 * merge_size - 1), (array.size - 1))
+    # Merge those individual arrays sorted earlier using insertion_sort
+    merge_size = min_run
+    while merge_size < array.size:
+        for start in range(0, array.size, 2 * merge_size):
+            mid = min(array.size - 1, start + merge_size - 1)
+            end = min((start + 2 * merge_size - 1), (array.size - 1))
 
-#             if mid < end:
-#                 merge(screen, start, mid, end)
+            if mid < end:
+                merge(screen, start, mid, end)
 
-#         merge_size *= 2
+        merge_size *= 2
 
 
-# def get_min_run_size(size):
-#     min_merge = 32
+def get_min_run_size(size):
+    min_merge = 32
 
-#     remainder = 0
-#     while size >= min_merge:
-#         remainder |= size & 1
-#         size >>= 1
+    remainder = 0
+    while size >= min_merge:
+        remainder |= size & 1
+        size >>= 1
 
-#     return size + remainder
+    return size + remainder
