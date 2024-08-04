@@ -4,9 +4,9 @@ from helpers import run_checks
 from random import randrange
 
 
-def selection_sort(screen):
+def selection_sort(screen, start, end):
     array = screen.array
-    for i in range(array.size):
+    for i in range(start, end+1):
         run_checks(screen)
 
         min_idx = find_min_idx(screen, i)
@@ -49,32 +49,24 @@ def swap(screen, i, j):
     array.values[i], array.values[j] = array.values[j], array.values[i]
 
 
-def insertion_sort(screen):
-    for i in range(1, screen.array.size):
-        insert(screen, i)
-
-
-def insert(screen, start_idx):
+def insertion_sort(screen, start, end):
     array = screen.array
-    current_idx = start_idx
-    current = array.values[current_idx]
+    for i in range(start+1, end+1):
+        current_idx = i
+        while current_idx > start and array.values[current_idx] < array.values[current_idx-1]:
+            run_checks(screen)
 
-    prev_idx = current_idx - 1
-    while prev_idx >= 0 and current < array.values[prev_idx]:
-        run_checks(screen)
+            swap(screen, current_idx, current_idx-1)
 
-        swap(screen, current_idx, prev_idx)
+            if screen.animate:
+                array.values[i].set_color(GREEN)
+                array.values[current_idx].set_color(RED)
+                array.values[current_idx-1].set_color(BLUE)
+                array.draw(screen)
+                array.values[current_idx].reset()
+                array.values[current_idx-1].reset()
 
-        if screen.animate:
-            array.values[start_idx].set_color(GREEN)
-            array.values[current_idx].set_color(RED)
-            array.values[prev_idx].set_color(BLUE)
-            array.draw(screen)
-            array.values[current_idx].reset()
-            array.values[prev_idx].reset()
-
-        prev_idx -= 1
-        current_idx -= 1
+            current_idx -= 1
 
 
 def merge_sort(screen, start, end):
@@ -197,3 +189,36 @@ def random_partition(screen, start, end):
     swap(screen, start, pivot_idx)
 
     return partition(screen, start, end)
+
+
+# def tim_sort(screen):
+#     array = screen.array
+#     min_run = get_min_run_size(array.size)
+
+#     # Sort subarrays of size min_run
+#     for start in range(0, array.size, min_run):
+#         end = min(start + min_run - 1, array.size - 1)
+#         insertion_sort(screen, start, end)
+
+#     # Merge those individual arrays sorted earlier using insertion_sort
+#     merge_size = min_run
+#     while merge_size < array.size:
+#         for start in range(0, array.size, 2 * merge_size):
+#             mid = min(array.size - 1, start + merge_size - 1)
+#             end = min((start + 2 * merge_size - 1), (array.size - 1))
+
+#             if mid < end:
+#                 merge(screen, start, mid, end)
+
+#         merge_size *= 2
+
+
+# def get_min_run_size(size):
+#     min_merge = 32
+
+#     remainder = 0
+#     while size >= min_merge:
+#         remainder |= size & 1
+#         size >>= 1
+
+#     return size + remainder

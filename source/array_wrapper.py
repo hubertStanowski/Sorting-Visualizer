@@ -44,13 +44,15 @@ class ArrayWrapper:
     def sort(self, screen):
         self.reset_nodes()
         if screen.selected_algorithm == "Selection Sort":
-            selection_sort(screen)
+            selection_sort(screen, 0, self.size-1)
         elif screen.selected_algorithm == "Insertion Sort":
-            insertion_sort(screen)
+            insertion_sort(screen, 0, self.size-1)
         elif screen.selected_algorithm == "Merge Sort":
             merge_sort(screen, 0, self.size-1)
         elif screen.selected_algorithm == "Quick Sort":
             quick_sort(screen, 0, self.size-1)
+        elif screen.selected_algorithm == "Tim Sort":
+            tim_sort(screen)
         self.reset_nodes()
 
     def scan(self, screen):

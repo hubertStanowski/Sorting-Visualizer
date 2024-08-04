@@ -91,10 +91,10 @@ def initialize_buttons(screen, algorithm_running=False):
 
     sorting_buttons = {"Selection Sort": BigButton(screen, x, y, label="Selection Sort"),
                        "Insertion Sort": BigButton(screen, x + diff, y, label="Insertion Sort"),
-                       "? Sort": BigButton(screen, x + diff*2, y, label="? Sort"),
-                       "Merge Sort": BigButton(screen, x + diff*3, y,
+                       "Merge Sort": BigButton(screen, x + diff*2, y,
                                                label="Merge Sort"),
-                       "Quick Sort": BigButton(screen, x + diff*4, y, label="Quick Sort")}
+                       "Quick Sort": BigButton(screen, x + diff*3, y, label="Quick Sort"),
+                       "Tim Sort": BigButton(screen, x + diff*4, y, label="Tim Sort")}
 
     screen.add_buttons("sorting_buttons", sorting_buttons)
     update_sorting_buttons(screen)
